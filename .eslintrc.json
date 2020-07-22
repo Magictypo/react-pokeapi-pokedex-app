@@ -1,7 +1,8 @@
 {
     "env": {
         "browser": true,
-        "es2020": true
+        "es2020": true,
+        "jest": true
     },
     "extends": [
         "plugin:react/recommended",
@@ -18,5 +19,10 @@
         "react"
     ],
     "rules": {
+        "no-param-reassign": ["error", {
+            "props": true,
+            "ignorePropertyModificationsFor": ["registration"]
+        }],
+        "linebreak-style": "off"
     }
 }

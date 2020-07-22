@@ -1,5 +1,5 @@
 import React from 'react';
-import List from "./components/List/List";
+import List from './components/List/List';
 
 function PokedexApp() {
   return (
@@ -10,7 +10,7 @@ function PokedexApp() {
           Filter Here
         </div>
         <div className="col-10">
-          <List/>
+          <List />
         </div>
       </div>
     </div>
