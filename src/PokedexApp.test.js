@@ -4,6 +4,6 @@ import PokedexApp from './PokedexApp';
 
 test('renders learn react link', () => {
   const { getByText } = render(<PokedexApp />);
-  const linkElement = getByText(/learn react/i);
+  const linkElement = getByText(/Pokedex/i);
   expect(linkElement).toBeInTheDocument();
 });

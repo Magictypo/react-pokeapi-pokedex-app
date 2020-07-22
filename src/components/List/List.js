@@ -1,23 +1,27 @@
 import React from 'react';
+import PokeAPI from '../../services/PokeAPI';
 
-function PokedexApp() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class List extends React.Component {
+
+  componentDidMount() {
+    const interval = {
+      limit: 40,
+      offset: 34
+    };
+
+    PokeAPI.getPokemonsList(interval)
+      .then(function(response) {
+        console.log(response);
+      });
+  }
+
+  render() {
+    return (
+      <div>
+        List Element
+      </div>
+    );
+  }
 }
 
-export default PokedexApp;
+export default List;

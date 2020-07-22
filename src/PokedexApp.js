@@ -1,21 +1,18 @@
 import React from 'react';
+import List from "./components/List/List";
 
 function PokedexApp() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container py-3">
+      <h1>Pokedex</h1>
+      <div className="row">
+        <div className="col-2">
+          Filter Here
+        </div>
+        <div className="col-10">
+          <List/>
+        </div>
+      </div>
     </div>
   );
 }
