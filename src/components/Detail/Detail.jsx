@@ -1,11 +1,19 @@
 import React from 'react';
+import { getPokemonById } from '../../services/PokeAPI';
 
-function Detail() {
-  return (
-    <div>
-      Detail Element
-    </div>
-  );
+class Detail extends React.Component {
+  async componentDidMount() {
+    const res = await getPokemonById(1);
+    console.log(res.data);
+  }
+
+  render() {
+    return (
+      <div>
+        Detail Element
+      </div>
+    );
+  }
 }
 
 export default Detail;
