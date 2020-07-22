@@ -10,8 +10,6 @@ export async function getCache(url) {
   const expire = storage && storage.expire;
   const data = storage && storage.data;
 
-  console.log(expire);
-
   if (!expire || expire < Date.now()) {
     await localForage.removeItem(url);
     return null;

@@ -4,8 +4,6 @@ import { getCache, setCache } from './CacheSvc';
 async function getFromAPI(url) {
   const cache = await getCache(url);
 
-  console.log(cache);
-
   if (cache) {
     return cache;
   }
