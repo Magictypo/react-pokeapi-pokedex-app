@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getCache, setCache } from './CacheSvc';
 
-async function getFromAPI(url) {
+export async function getByURL(url) {
   const cache = await getCache(url);
 
   if (cache) {
@@ -18,10 +18,10 @@ async function getFromAPI(url) {
 
 export function getPokemons(limit, offset) {
   const url = `/pokemon?limit=${limit}&offset=${offset}`;
-  return getFromAPI(url);
+  return getByURL(url);
 }
 
 export function getPokemonById(id) {
   const url = `/pokemon/${id}`;
-  return getFromAPI(url);
+  return getByURL(url);
 }
