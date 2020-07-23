@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { usePokemons } from './hooks';
 
 export default function List() {
@@ -6,7 +7,7 @@ export default function List() {
 
   const listItems = pokemons.data.map((pokemon) => (
     <li key={pokemon.name}>
-      {pokemon.name}
+      <Link to={`/${pokemon.name}`}>{pokemon.name}</Link>
     </li>
   ));
 
