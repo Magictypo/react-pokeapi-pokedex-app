@@ -6,10 +6,11 @@ export function usePokemon(name) {
   const [data, setData] = useState(initialState);
 
   useEffect(() => {
-    (async function () {
+    async function getData() {
       const res = await getPokemonById(name);
       setData({ data: res.data });
-    }());
+    }
+    getData();
   }, [name]);
 
   return data;
