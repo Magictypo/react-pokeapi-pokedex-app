@@ -1,10 +1,10 @@
 import React from 'react';
-import { getPokemonById } from '../../services/PokeAPI';
+// import { getPokemonById } from '../../services/PokeAPI';
 
 class Detail extends React.Component {
   async componentDidMount() {
-    const res = await getPokemonById(1);
-    console.log(res.data);
+    // const res = await getPokemonById(1);
+    // console.log(res.data);
   }
 
   render() {

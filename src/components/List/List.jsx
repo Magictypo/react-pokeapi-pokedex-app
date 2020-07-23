@@ -1,19 +1,14 @@
 import React from 'react';
-import { getPokemons } from '../../services/PokeAPI';
+import { usePokemons } from './hooks';
 
-class List extends React.Component {
-  async componentDidMount() {
-    const res = await getPokemons(10, 20);
-    console.log(res.data);
-  }
+export default function List() {
+  const pokemons = usePokemons();
 
-  render() {
-    return (
-      <div>
-        List Element
-      </div>
-    );
-  }
+  const listItems = pokemons.data.map((pokemon) => (
+    <li key={pokemon.name}>
+      {pokemon.name}
+    </li>
+  ));
+
+  return <ul>{listItems}</ul>;
 }
-
-export default List;
