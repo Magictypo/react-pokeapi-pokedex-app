@@ -14,16 +14,22 @@ function PokedexApp() {
 
       <Router>
         <div>
-          <Link to="/">
-            <h1>Pokedex</h1>
-          </Link>
+          <nav className="navbar fixed-top navbar-light bg-dark mb-5">
+            <Link to="/">
+              <h4 className="mb-0">Pokedex</h4>
+            </Link>
+          </nav>
 
-          <Switch>
-            <Route exact path="/">
-              <List />
-            </Route>
-            <Route path="/:name" children={<Detail />} />
-          </Switch>
+          <div style={{ marginTop: '60px' }}>
+            <Switch>
+              <Route exact path="/">
+                <List />
+              </Route>
+              <Route path="/:name">
+                <Detail />
+              </Route>
+            </Switch>
+          </div>
 
         </div>
       </Router>
