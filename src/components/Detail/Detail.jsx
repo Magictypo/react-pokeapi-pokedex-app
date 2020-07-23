@@ -1,19 +1,20 @@
 import React from 'react';
-import { getPokemonById } from '../../services/PokeAPI';
+import { useParams } from 'react-router-dom';
+import { usePokemon } from './hooks';
 
-class Detail extends React.Component {
-  async componentDidMount() {
-    const res = await getPokemonById(1);
-    console.log(res.data);
-  }
+function Detail() {
+  const { name } = useParams();
+  const pokemon = usePokemon(name);
 
-  render() {
-    return (
-      <div>
-        Detail Element
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h1>
+        Detail Page
+        {' '}
+        {pokemon.data.name}
+      </h1>
+    </div>
+  );
 }
 
 export default Detail;
