@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getPokemons } from '../../services/PokeAPI';
 
 export function usePokemons() {
   const initialState = { data: [] };
   const [data, setData] = useState(initialState);
 
-  async function getData() {
-    const res = await getPokemons(10, 20);
-    setData({ data: res.data.results });
-  }
-  getData();
+  useEffect(() => {
+    (async function () {
+      const res = await getPokemons(10, 20);
+      setData({ data: res.data.results });
+    }());
+  }, []);
 
   return data;
 }
