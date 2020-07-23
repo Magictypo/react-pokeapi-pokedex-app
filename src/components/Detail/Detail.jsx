@@ -19,7 +19,7 @@ function Detail() {
 
             <h2 className="card-title">
               {`#${data.order} ${data.name.toUpperCase()}`}
-              <img src={data.image} alt="" />
+              <img src={`/assets/sprites/pokemon/${data.id}.png`} alt="" />
             </h2>
 
             <div className="card text-white bg-info mb-3">

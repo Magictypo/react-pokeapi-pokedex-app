@@ -29,6 +29,7 @@ function reduceNameByKey(array, key) {
 
 function normalizer(data) {
   const normalized = { ...initialState };
+  normalized.id = data.id;
   normalized.height = data.height;
   normalized.weight = data.weight;
   normalized.order = data.order;
