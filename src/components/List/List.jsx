@@ -12,7 +12,11 @@ export default function List() {
 
   const listItems = data.map((o) => (
     <li className="list-group-item text-center" key={o.name}>
-      <Link to={`/${o.name}`}>{o.name.toUpperCase()}</Link>
+      <Link to={`/${o.name}`}>
+        <img src={o.images} alt="" />
+        {`#${o.id} `}
+        {o.name.toUpperCase()}
+      </Link>
     </li>
   ));
 
