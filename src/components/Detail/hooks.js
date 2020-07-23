@@ -69,7 +69,10 @@ export function usePokemon(name) {
     getData();
   }, [name]);
 
-  return [isLoading, data];
+  return {
+    isLoading,
+    data,
+  };
 }
 
 export default { usePokemon };
