@@ -27,7 +27,7 @@ function Detail() {
                 <div className="row">
                   <div className="col-6">
                     <Field value={`${result.height}"`} label="Height" />
-                    <Field value={`${result.weight}"`} label="Weight" />
+                    <Field value={`${result.weight} lbs`} label="Weight" />
                   </div>
                   <div className="col-6">
                     <Field value={result.types} label="Types" />
