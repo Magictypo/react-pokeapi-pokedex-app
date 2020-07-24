@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import useFilters from './useFilters';
+import useFilters from '../useFilters';
 
 const selectStyles = {
   margin: '8px',
