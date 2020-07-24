@@ -1,13 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import useFilters from './useFilters';
 
 const selectStyles = {
   margin: '8px',
 };
 
 export default function SelectFilter({
-  value, filterType, filters, onChange, isLoading,
+  value, type, onChange, disabled,
 }) {
+  const { options, isLoading } = useFilters(type);
+
+  const listOptions = options.map((o) => (
+    <option value={o.url} key={o.name}>
+      {o.name.toUpperCase()}
+    </option>
+  ));
+
   return (
     <select
       value={value}
@@ -16,22 +25,21 @@ export default function SelectFilter({
       className="form-control"
       name="filter"
       id="filter"
-      disabled={!filterType && isLoading}
+      disabled={!type || isLoading || disabled}
     >
       <option value="">Filter Value</option>
-      { filters.map((o) => (
-        <option value={o.name} key={o.name}>
-          {o.name.toUpperCase()}
-        </option>
-      ))}
+      {listOptions}
     </select>
   );
 }
 
+SelectFilter.defaultProps = {
+  disabled: false,
+};
+
 SelectFilter.propTypes = {
   value: PropTypes.string.isRequired,
-  filterType: PropTypes.string.isRequired,
-  filters: PropTypes.array.isRequired,
+  type: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
 };

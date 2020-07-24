@@ -28,9 +28,9 @@ const ACTION = {
   MAKE_REQUEST: 'make-request',
   GET_POKEMON: 'get-pokemon',
   GET_NEXT_PAGE: 'get-next-page',
-  GET_FILTERS: 'get-filters',
-  GET_POKEMON_BY_FILTER: 'get-pokemon-by-filter',
+
   MAKE_REQUEST_BY_FILTER: 'make-request-by-filter',
+  GET_POKEMON_BY_FILTER: 'get-pokemon-by-filter',
 };
 
 const initialState = ({
@@ -39,7 +39,6 @@ const initialState = ({
   isNextPage: false,
   nextURL: '',
   isLoading: false,
-  filters: [],
 });
 
 function reducer(state, action) {
@@ -66,7 +65,6 @@ function reducer(state, action) {
         data: action.payload.data,
         isNextPage: !!action.payload.next,
         nextURL: action.payload.next,
-        filters: [],
       };
     case ACTION.GET_NEXT_PAGE:
       return {
@@ -75,12 +73,6 @@ function reducer(state, action) {
         data: [...state.data, ...action.payload.data],
         isNextPage: !!action.payload.next,
         nextURL: action.payload.next,
-      };
-    case ACTION.GET_FILTERS:
-      return {
-        ...state,
-        isLoading: false,
-        filters: action.payload.data,
       };
     case ACTION.GET_POKEMON_BY_FILTER:
       return {
@@ -94,7 +86,7 @@ function reducer(state, action) {
   }
 }
 
-export function usePokemons(initCount, page, filterType, filterValue) {
+export default function usePokemons(initCount, page, filterURL) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -112,27 +104,10 @@ export function usePokemons(initCount, page, filterType, filterValue) {
   }, [initCount]);
 
   useEffect(() => {
-    if (!filterType) return;
+    if (!filterURL) return;
 
     dispatch({ type: ACTION.MAKE_REQUEST_BY_FILTER });
-    getByURL(`/${filterType}`).then((res) => {
-      dispatch({
-        type: ACTION.GET_FILTERS,
-        payload: {
-          data: res.data.results,
-        },
-      });
-    });
-  }, [filterType]);
-
-  useEffect(() => {
-    if (!filterType) return;
-    if (!filterValue) return;
-
-    dispatch({ type: ACTION.MAKE_REQUEST_BY_FILTER });
-    const { url } = state.filters.find((o) => o.name === filterValue);
-    const id = getIdFromURL(url);
-    getByURL(`/${filterType}/${id}`).then((res) => {
+    getByURL(filterURL).then((res) => {
       dispatch({
         type: ACTION.GET_POKEMON_BY_FILTER,
         payload: {
@@ -140,7 +115,7 @@ export function usePokemons(initCount, page, filterType, filterValue) {
         },
       });
     });
-  }, [filterValue]);
+  }, [filterURL]);
 
   useEffect(() => {
     // exit if invalid condition
@@ -164,5 +139,3 @@ export function usePokemons(initCount, page, filterType, filterValue) {
 
   return state;
 }
-
-export default { usePokemons };
