@@ -2,6 +2,7 @@ import { useEffect, useReducer } from 'react';
 import { getPokemonById } from '../../services/PokeAPI';
 
 const initialState = {
+  id: '',
   height: '',
   weight: '',
   order: '',

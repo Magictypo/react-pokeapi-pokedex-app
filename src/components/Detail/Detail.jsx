@@ -6,6 +6,7 @@ import FieldBar from './components/FieldBar';
 import Spinner from '../Spinner';
 import BackButton from './components/BackButton';
 import PokemonName from './components/PokemonName';
+import PokemonImage from './components/PokemonImage';
 
 const centerizeStyles = { margin: '0 auto' };
 
@@ -24,7 +25,7 @@ function Detail() {
             <div className="d-flex justify-content-between">
               <BackButton />
               <PokemonName order={data.order.toString()} name={data.name} />
-              <img src={`/assets/sprites/pokemon/${data.id}.png`} alt="" />
+              <PokemonImage id={data.id.toString()} />
             </div>
 
             <div className="card text-white bg-info mb-3">
