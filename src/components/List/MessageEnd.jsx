@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default function MessageEnd({ type, filterURL, hasMore }) {
   if (type && !filterURL) {
     return (
-      <div className="text-center" style={{ padding: 8 }}>
+      <div className="text-center p-2">
         Please Select Filter Value.
       </div>
     );
@@ -12,7 +12,7 @@ export default function MessageEnd({ type, filterURL, hasMore }) {
 
   if (hasMore === false) {
     return (
-      <div className="text-center" style={{ padding: 8 }}>
+      <div className="text-center p-2">
         You have reach end of list. No More Pokemon Available
       </div>
     );
