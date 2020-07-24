@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FILTER_TYPES = [
+const TYPES = [
   { type: 'type', label: 'Type' },
   { type: 'ability', label: 'Ability' },
 ];
@@ -10,7 +10,13 @@ const selectStyles = {
   margin: '8px',
 };
 
-export default function SelectType({ value, onChange }) {
+export default function SelectType({ value, onChange, disabled }) {
+  const listOptions = TYPES.map((o) => (
+    <option value={o.type} key={o.type}>
+      {`Filter By ${o.label}`}
+    </option>
+  ));
+
   return (
     <select
       value={value}
@@ -19,18 +25,20 @@ export default function SelectType({ value, onChange }) {
       onChange={onChange}
       name="filterType"
       id="filterType"
+      disabled={disabled}
     >
       <option value="">Filter: No Filter</option>
-      { FILTER_TYPES.map((o) => (
-        <option value={o.type} key={o.type}>
-          {`Filter By ${o.label}`}
-        </option>
-      ))}
+      {listOptions}
     </select>
   );
 }
 
+SelectType.defaultProps = {
+  disabled: false,
+};
+
 SelectType.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
