@@ -1,10 +1,15 @@
 import React from 'react';
 
+const FILTER_TYPES = [
+  { type: 'type', label: 'Type' },
+  { type: 'ability', label: 'Ability' },
+];
+
 const selectStyles = {
   margin: '8px',
 };
 
-export default function SelectType({ value, filterTypes = [], onChange }) {
+export default function SelectType({ value, onChange }) {
   return (
     <select
       value={value}
@@ -15,7 +20,7 @@ export default function SelectType({ value, filterTypes = [], onChange }) {
       id="filterType"
     >
       <option value="">Filter: No Filter</option>
-      { filterTypes.map((o) => (
+      { FILTER_TYPES.map((o) => (
         <option value={o.type} key={o.type}>
           {`Filter By ${o.label}`}
         </option>

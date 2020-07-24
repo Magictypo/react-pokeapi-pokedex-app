@@ -7,11 +7,6 @@ import MessageEnd from './MessageEnd';
 import SelectType from './SelectType';
 import SelectFilter from './SelectFilter';
 
-const FILTER_TYPES = [
-  { type: 'type', label: 'Type' },
-  { type: 'ability', label: 'Ability' },
-];
-
 export default function List() {
   const [initCount, setInitCount] = useState(1);
   const [page, setPage] = useState(1);
@@ -73,7 +68,6 @@ export default function List() {
           <div className="d-flex">
             <SelectType
               value={filterType}
-              filterTypes={FILTER_TYPES}
               onChange={onChangeFilterType}
             />
             <SelectFilter
