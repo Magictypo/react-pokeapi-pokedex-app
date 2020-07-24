@@ -74,6 +74,7 @@ export default function List() {
               value={filterValue}
               filters={filters}
               filterType={filterType}
+              isLoading={isLoading}
               onChange={onChangeFilterValue}
             />
             <button

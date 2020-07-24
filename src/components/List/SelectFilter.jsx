@@ -5,7 +5,7 @@ const selectStyles = {
 };
 
 export default function SelectFilter({
-  value, filterType, filters, onChange,
+  value, filterType, filters, onChange, isLoading,
 }) {
   return (
     <select
@@ -15,7 +15,7 @@ export default function SelectFilter({
       className="form-control"
       name="filter"
       id="filter"
-      disabled={!filterType}
+      disabled={!filterType && isLoading}
     >
       <option value="">Filter Value</option>
       { filters.map((o) => (
