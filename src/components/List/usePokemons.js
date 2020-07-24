@@ -31,14 +31,20 @@ const ACTION = {
 
   MAKE_REQUEST_BY_FILTER: 'make-request-by-filter',
   GET_POKEMON_BY_FILTER: 'get-pokemon-by-filter',
+  GET_NEXT_PAGE_FILTERED: 'get-next-page-filtered',
 };
 
 const initialState = ({
   data: [],
-  isFilteredData: false,
-  isNextPage: false,
-  nextURL: '',
   isLoading: false,
+  isNextPage: false,
+
+  // unfiltered state
+  nextURL: '',
+
+  // filtered state
+  nextData: [],
+  isFilteredData: false,
 });
 
 function reducer(state, action) {
@@ -79,7 +85,15 @@ function reducer(state, action) {
         ...state,
         isLoading: false,
         data: action.payload.data,
-        isNextPage: false,
+        nextData: action.payload.nextData,
+        isNextPage: !!action.payload.nextData.length,
+      };
+    case ACTION.GET_NEXT_PAGE_FILTERED:
+      return {
+        ...state,
+        isLoading: false,
+        data: [...state.data, ...action.payload.data],
+        isNextPage: !!state.nextData.length,
       };
     default:
       return state;
@@ -108,10 +122,12 @@ export default function usePokemons(initCount, page, filterURL) {
 
     dispatch({ type: ACTION.MAKE_REQUEST_BY_FILTER });
     getByURL(filterURL).then((res) => {
+      const data = res.data.pokemon.map(normalizerFiltered);
       dispatch({
         type: ACTION.GET_POKEMON_BY_FILTER,
         payload: {
-          data: res.data.pokemon.map(normalizerFiltered),
+          data: data.splice(0, 5),
+          nextData: data,
         },
       });
     });
@@ -121,20 +137,30 @@ export default function usePokemons(initCount, page, filterURL) {
     // exit if invalid condition
     if (state.isLoading) return;
     if (state.isNextPage === false) return;
-    if (state.isFilteredData === true) return;
 
-    // start load data
-    dispatch({ type: ACTION.MAKE_REQUEST });
-    getByURL(state.nextURL).then((res) => {
+    if (state.isFilteredData === true) {
+      // get more filtered
       dispatch({
-        type: ACTION.GET_NEXT_PAGE,
+        type: ACTION.GET_NEXT_PAGE_FILTERED,
         payload: {
-          data: res.data.results.map(normalizer),
-          next: res.data.next,
-          nextURL: res.data.next,
+          data: state.nextData.splice(0, 5),
         },
       });
-    });
+    } else {
+      // get more unfiltered
+      // start load data
+      dispatch({ type: ACTION.MAKE_REQUEST });
+      getByURL(state.nextURL).then((res) => {
+        dispatch({
+          type: ACTION.GET_NEXT_PAGE,
+          payload: {
+            data: res.data.results.map(normalizer),
+            next: res.data.next,
+            nextURL: res.data.next,
+          },
+        });
+      });
+    }
   }, [page]);
 
   return state;
