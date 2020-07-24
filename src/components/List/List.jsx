@@ -6,6 +6,7 @@ import Spinner from '../Spinner';
 import MessageEnd from './MessageEnd';
 import SelectType from './SelectType';
 import SelectFilter from './SelectFilter';
+import ListItem from './ListItem';
 
 export default function List() {
   const [initCount, setInitCount] = useState(1);
@@ -43,20 +44,7 @@ export default function List() {
 
   const listItems = data.map((o) => (
     <Link to={`/${o.id}`} key={o.id}>
-      <div
-        style={{ margin: '8px' }}
-        className="list-group-item d-flex justify-content-between"
-      >
-        <h1
-          style={{ lineHeight: '96px' }}
-          className="mb-0"
-        >
-          {`#${o.id}`}
-        </h1>
-        <img src={o.images} alt="" />
-        <h1 style={{ lineHeight: '96px' }}>{`${o.name.toUpperCase()}`}</h1>
-
-      </div>
+      <ListItem images={o.images} id={o.id} name={o.name} />
     </Link>
   ));
 
