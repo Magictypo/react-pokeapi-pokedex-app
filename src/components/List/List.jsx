@@ -8,20 +8,23 @@ import SelectType from './components/SelectType';
 import SelectFilter from './components/SelectFilter';
 import ListItem from './components/ListItem';
 import ButtonClearFilter from './components/ButtonClearFilter';
+import usePokemonsFiltered from './usePokemonsFiltered';
 
 export default function List() {
-  const [initCount, setInitCount] = useState(1);
-  const [page, setPage] = useState(1);
+  // infinite scroll trigger
+  const [more, setMore] = useState(1);
 
-  // filters
+  // filters state
   const [type, setType] = useState('');
   const [filterURL, setFilterURL] = useState('');
 
-  const {
-    isLoading,
-    data,
-    isNextPage,
-  } = usePokemons(initCount, page, filterURL);
+  // render state
+  const stateNormal = usePokemons(more);
+  const stateFiltered = usePokemonsFiltered(filterURL, more);
+
+  // conditional render list
+  const renderState = type ? stateFiltered : stateNormal;
+  const { isLoading, data, isNextPage } = { ...renderState };
 
   function onChangeFilterType(e) {
     setType(e.target.value);
@@ -32,17 +35,13 @@ export default function List() {
   }
 
   function onCLickClearFilter() {
-    // trigger effect
-    setInitCount(initCount + 1);
-
-    // clear form
     setType('');
     setFilterURL('');
   }
 
   function incrementPage() {
     if (isLoading) return;
-    setPage(page + 1);
+    setMore(more + 1);
   }
 
   const listItems = data.map((o) => (

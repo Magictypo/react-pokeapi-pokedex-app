@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from 'react';
-import { getByURL, getPokemons } from '../../services/PokeAPI';
+import { getByURL } from '../../services/PokeAPI';
 
 function getIdFromURL(url) {
   const array = url.split('/');
@@ -11,7 +11,9 @@ function getIdFromURL(url) {
 
 function normalizer(data) {
   const result = { ...data };
-  result.id = getIdFromURL(data.url);
+  result.name = data.pokemon.name;
+  result.url = data.pokemon.url;
+  result.id = getIdFromURL(data.pokemon.url);
   result.images = `/assets/sprites/pokemon/${result.id}.png`;
   return result;
 }
@@ -19,14 +21,14 @@ function normalizer(data) {
 const ACTION = {
   MAKE_REQUEST: 'MAKE_REQUEST',
   GET_DATA: 'GET_DATA',
-  GET_NEXT: 'GET_NET',
+  GET_MORE: 'GET_MORE',
   ERROR: 'ERROR',
 };
 
 const initialState = ({
   isLoading: false,
   data: [],
-  nextURL: '',
+  nextData: [],
   isNextPage: false,
 });
 
@@ -37,62 +39,59 @@ function reducer(state, action) {
         ...state,
         isLoading: true,
         isNextPage: false,
+        data: [],
       };
     case ACTION.GET_DATA:
       return {
         ...state,
         isLoading: false,
         data: action.payload.data,
-        isNextPage: !!action.payload.next,
-        nextURL: action.payload.next,
+        nextData: action.payload.nextData,
+        isNextPage: !!action.payload.nextData.length,
       };
-    case ACTION.GET_NEXT:
+    case ACTION.GET_MORE:
       return {
         ...state,
         isLoading: false,
         data: [...state.data, ...action.payload.data],
-        isNextPage: !!action.payload.next,
-        nextURL: action.payload.next,
+        isNextPage: !!state.nextData.length,
       };
     default:
       return state;
   }
 }
 
-export default function usePokemons(page) {
+export default function usePokemonsFiltered(filterURL, more) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
+    if (!filterURL) return;
+
     dispatch({ type: ACTION.MAKE_REQUEST });
-    getPokemons(10, 0).then((res) => {
+    getByURL(filterURL).then((res) => {
+      const data = res.data.pokemon.map(normalizer);
+
       dispatch({
         type: ACTION.GET_DATA,
         payload: {
-          data: res.data.results.map(normalizer),
-          next: res.data.next,
-          nextURL: res.data.next,
+          data: data.splice(0, 5),
+          nextData: data,
         },
       });
     });
-  }, []);
+  }, [filterURL]);
 
   useEffect(() => {
-    // exit if invalid condition
     if (state.isLoading) return;
     if (state.isNextPage === false) return;
 
-    dispatch({ type: ACTION.MAKE_REQUEST });
-    getByURL(state.nextURL).then((res) => {
-      dispatch({
-        type: ACTION.GET_NEXT,
-        payload: {
-          data: res.data.results.map(normalizer),
-          next: res.data.next,
-          nextURL: res.data.next,
-        },
-      });
+    dispatch({
+      type: ACTION.GET_MORE,
+      payload: {
+        data: state.nextData.splice(0, 5),
+      },
     });
-  }, [page]);
+  }, [more]);
 
   return state;
 }
