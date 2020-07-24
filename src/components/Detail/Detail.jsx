@@ -17,10 +17,25 @@ function Detail() {
 
             <Spinner isLoading={isLoading} />
 
-            <h2 className="card-title">
-              {`#${data.order} ${data.name.toUpperCase()}`}
+            <div className="d-flex justify-content-between">
+              <div>
+                <button
+                  style={{
+                    fontSize: '2rem',
+                    marginTop: '1.25vw',
+                  }}
+                  onClick={() => window.history.back()}
+                  className="form-control"
+                  type="button"
+                >
+                  Back
+                </button>
+              </div>
+              <h2 style={{ lineHeight: '96px' }} className="card-title">
+                {`#${data.order} ${data.name.toUpperCase()}`}
+              </h2>
               <img src={`/assets/sprites/pokemon/${data.id}.png`} alt="" />
-            </h2>
+            </div>
 
             <div className="card text-white bg-info mb-3">
               <div className="card-body">

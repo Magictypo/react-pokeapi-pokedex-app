@@ -4,14 +4,18 @@ const selectStyles = {
   margin: '8px',
 };
 
-export default function SelectFilter({ filters, onChange }) {
+export default function SelectFilter({
+  value, filterType, filters, onChange,
+}) {
   return (
     <select
+      value={value}
       style={selectStyles}
       onChange={onChange}
       className="form-control"
       name="filter"
       id="filter"
+      disabled={!filterType}
     >
       <option value="">Filter Value</option>
       { filters.map((o) => (

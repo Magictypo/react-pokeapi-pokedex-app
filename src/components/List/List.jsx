@@ -15,8 +15,8 @@ const FILTER_TYPES = [
 export default function List() {
   const [initCount, setInitCount] = useState(1);
   const [page, setPage] = useState(1);
-  const [filterType, setFilterType] = useState(null);
-  const [filterValue, setFilterValue] = useState([]);
+  const [filterType, setFilterType] = useState('');
+  const [filterValue, setFilterValue] = useState('');
   const {
     isLoading,
     data,
@@ -25,13 +25,11 @@ export default function List() {
   } = usePokemons(initCount, page, filterType, filterValue);
 
   function onChangeFilterType(e) {
-    const selected = FILTER_TYPES.find((o) => o.type === e.target.value);
-    setFilterType(selected);
+    setFilterType(e.target.value);
   }
 
   function onChangeFilterValue(e) {
-    const selected = filters.find((o) => o.name === e.target.value);
-    setFilterValue(selected);
+    setFilterValue(e.target.value);
   }
 
   function clearFilter() {
@@ -49,12 +47,22 @@ export default function List() {
   }
 
   const listItems = data.map((o) => (
-    <li className="list-group-item text-center" key={o.id}>
-      <Link to={`/${o.id}`}>
+    <Link to={`/${o.id}`} key={o.id}>
+      <div
+        style={{ margin: '8px' }}
+        className="list-group-item d-flex justify-content-between"
+      >
+        <h1
+          style={{ lineHeight: '96px' }}
+          className="mb-0"
+        >
+          {`#${o.id}`}
+        </h1>
         <img src={o.images} alt="" />
-        {`#${o.id} ${o.name.toUpperCase()}`}
-      </Link>
-    </li>
+        <h1 style={{ lineHeight: '96px' }}>{`${o.name.toUpperCase()}`}</h1>
+
+      </div>
+    </Link>
   ));
 
   return (
@@ -71,6 +79,7 @@ export default function List() {
             <SelectFilter
               value={filterValue}
               filters={filters}
+              filterType={filterType}
               onChange={onChangeFilterValue}
             />
             <button

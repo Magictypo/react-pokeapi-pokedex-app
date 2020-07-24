@@ -4,9 +4,10 @@ const selectStyles = {
   margin: '8px',
 };
 
-export default function SelectType({ filterTypes = [], onChange }) {
+export default function SelectType({ value, filterTypes = [], onChange }) {
   return (
     <select
+      value={value}
       className="form-control"
       style={selectStyles}
       onChange={onChange}
