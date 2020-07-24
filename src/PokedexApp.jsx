@@ -8,31 +8,35 @@ import {
 import List from './components/List/List';
 import Detail from './components/Detail/Detail';
 
+const contentWrapperStyles = {
+  marginTop: '60px',
+};
+
 function PokedexApp() {
   return (
     <div className="container py-3">
 
       <Router>
-        <div>
-          <nav className="navbar fixed-top navbar-light bg-dark mb-5">
-            <Link to="/">
-              <h4 className="mb-0">Pokedex</h4>
-            </Link>
-          </nav>
 
-          <div style={{ marginTop: '60px' }}>
-            <Switch>
-              <Route exact path="/">
-                <List />
-              </Route>
-              <Route path="/:id">
-                <Detail />
-              </Route>
-            </Switch>
-          </div>
+        <nav className="navbar fixed-top navbar-light bg-dark mb-5">
+          <Link to="/">
+            <h4 className="mb-0">Pokedex</h4>
+          </Link>
+        </nav>
 
+        <div style={contentWrapperStyles}>
+          <Switch>
+            <Route exact path="/">
+              <List />
+            </Route>
+            <Route path="/:id">
+              <Detail />
+            </Route>
+          </Switch>
         </div>
+
       </Router>
+
     </div>
   );
 }
