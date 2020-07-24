@@ -13,11 +13,11 @@ import usePokemonsFiltered from './usePokemonsFiltered';
 export default function List() {
   // filters state
   const [type, setType] = useState('');
-  const [filterURL, setFilterURL] = useState('');
+  const [typeId, setTypeId] = useState('');
 
   // render state
   const stateNormal = usePokemons();
-  const stateFiltered = usePokemonsFiltered(filterURL);
+  const stateFiltered = usePokemonsFiltered(type, typeId);
 
   // conditional render list
   const renderState = type ? stateFiltered : stateNormal;
@@ -33,12 +33,12 @@ export default function List() {
   }
 
   function onChangeFilterValue(e) {
-    setFilterURL(e.target.value);
+    setTypeId(e.target.value);
   }
 
   function onClickClearFilter() {
     setType('');
-    setFilterURL('');
+    setTypeId('');
   }
 
   const listItems = data.map((o) => (
@@ -59,7 +59,7 @@ export default function List() {
               disabled={isLoading}
             />
             <SelectFilter
-              value={filterURL}
+              value={typeId}
               type={type}
               onChange={onChangeFilterValue}
               disabled={isLoading}
@@ -82,7 +82,7 @@ export default function List() {
             isLoading={isLoading}
             count={data.length}
             type={type}
-            filterURL={filterURL}
+            typeId={typeId}
             hasMore={isNextPage}
           />
 

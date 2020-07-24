@@ -12,7 +12,7 @@ export default function SelectFilter({
   const { options, isLoading } = useFilters(type);
 
   const listOptions = options.map((o) => (
-    <option value={o.url} key={o.name}>
+    <option value={o.id} key={o.name}>
       {o.name.toUpperCase()}
     </option>
   ));

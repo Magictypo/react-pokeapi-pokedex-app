@@ -61,14 +61,15 @@ function reducer(state, action) {
   }
 }
 
-export default function usePokemonsFiltered(filterURL, more) {
+export default function usePokemonsFiltered(type, typeId) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    if (!filterURL) return;
+    if (!type) return;
+    if (!typeId) return;
 
     dispatch({ type: ACTION.MAKE_REQUEST });
-    getByURL(filterURL).then((res) => {
+    getByURL(`/${type}/${typeId}`).then((res) => {
       const data = res.data.pokemon.map(normalizer);
 
       dispatch({
@@ -79,7 +80,7 @@ export default function usePokemonsFiltered(filterURL, more) {
         },
       });
     });
-  }, [filterURL]);
+  }, [type, typeId]);
 
   function getMore() {
     if (state.isLoading) return;

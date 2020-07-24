@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function MessageEnd({
-  count, type, filterURL, hasMore, isLoading,
+  count, type, id, hasMore, isLoading,
 }) {
   let message = '';
 
-  if (type && !filterURL) {
+  if (type && !id) {
     message = 'Please Select Filter Value.';
   } else if (count === 0 && !isLoading) {
     message = 'No Pokemon Found.';
@@ -24,9 +24,14 @@ export default function MessageEnd({
   return null;
 }
 
+MessageEnd.defaultProps = {
+  id: '',
+  type: '',
+};
+
 MessageEnd.propTypes = {
-  type: PropTypes.string.isRequired,
-  filterURL: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  id: PropTypes.string,
   hasMore: PropTypes.bool.isRequired,
   count: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
