@@ -103,7 +103,7 @@ export default function List() {
             <ul className="list-group list-group-flush">{listItems}</ul>
           </InfiniteScroll>
 
-          <MessageEnd hasMore={isNextPage} />
+          <MessageEnd filterType={filterType} filterValue={filterValue} hasMore={isNextPage} />
 
         </div>
       </div>

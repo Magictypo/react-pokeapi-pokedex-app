@@ -1,7 +1,13 @@
 import React from 'react';
 
-export default function MessageEnd(props) {
-  const { hasMore } = props;
+export default function MessageEnd({ filterType, filterValue, hasMore }) {
+  if (filterType && !filterValue) {
+    return (
+      <div className="text-center" style={{ padding: 8 }}>
+        Please Select Filter Value.
+      </div>
+    );
+  }
 
   if (hasMore === false) {
     return (
