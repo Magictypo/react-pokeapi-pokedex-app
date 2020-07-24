@@ -1,13 +1,13 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { usePokemon } from './hooks';
+import { usePokemon } from './usePokemon';
 import Field from './Field';
 import FieldBar from './FieldBar';
 import Spinner from '../Spinner';
 
 function Detail() {
-  const { name } = useParams();
-  const { isLoading, data } = usePokemon(name);
+  const { id } = useParams();
+  const { isLoading, data } = usePokemon(id);
 
   return (
     <div className="row">
