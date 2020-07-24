@@ -4,6 +4,7 @@ import { usePokemon } from './usePokemon';
 import Field from './Field';
 import FieldBar from './FieldBar';
 import Spinner from '../Spinner';
+import BackButton from './BackButton';
 
 function Detail() {
   const { id } = useParams();
@@ -18,19 +19,7 @@ function Detail() {
             <Spinner isLoading={isLoading} />
 
             <div className="d-flex justify-content-between">
-              <div>
-                <button
-                  style={{
-                    fontSize: '2rem',
-                    marginTop: '1.25vw',
-                  }}
-                  onClick={() => window.history.back()}
-                  className="form-control"
-                  type="button"
-                >
-                  Back
-                </button>
-              </div>
+              <BackButton />
               <h2 style={{ lineHeight: '96px' }} className="card-title">
                 {`#${data.order} ${data.name.toUpperCase()}`}
               </h2>
