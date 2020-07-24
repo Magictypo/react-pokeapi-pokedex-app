@@ -5,7 +5,7 @@ import usePokemons from './usePokemons';
 import Spinner from '../Spinner';
 import MessageEnd from './components/MessageEnd';
 import SelectType from './components/SelectType';
-import SelectFilter from './components/SelectFilter';
+import SelectTypeId from './components/SelectTypeId';
 import ListItem from './components/ListItem';
 import ButtonClearFilter from './components/ButtonClearFilter';
 import usePokemonsFiltered from './usePokemonsFiltered';
@@ -30,9 +30,10 @@ export default function List() {
 
   function onChangeFilterType(e) {
     setType(e.target.value);
+    setTypeId('');
   }
 
-  function onChangeFilterValue(e) {
+  function onChangeTypeId(e) {
     setTypeId(e.target.value);
   }
 
@@ -58,10 +59,10 @@ export default function List() {
               onChange={onChangeFilterType}
               disabled={isLoading}
             />
-            <SelectFilter
+            <SelectTypeId
               value={typeId}
               type={type}
-              onChange={onChangeFilterValue}
+              onChange={onChangeTypeId}
               disabled={isLoading}
             />
             <ButtonClearFilter onClick={onClickClearFilter} disabled={isLoading} />

@@ -6,7 +6,7 @@ const selectStyles = {
   margin: '8px',
 };
 
-export default function SelectFilter({
+export default function SelectTypeId({
   value, type, onChange, disabled,
 }) {
   const { options, isLoading } = useFilters(type);
@@ -33,11 +33,11 @@ export default function SelectFilter({
   );
 }
 
-SelectFilter.defaultProps = {
+SelectTypeId.defaultProps = {
   disabled: false,
 };
 
-SelectFilter.propTypes = {
+SelectTypeId.propTypes = {
   value: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
