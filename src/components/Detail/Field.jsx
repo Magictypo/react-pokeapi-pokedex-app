@@ -1,12 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function Field(props) {
+export default function Field({ label, value }) {
   return (
     <div>
-      <h6 className="card-subtitle mb-1">{props.label}</h6>
-      <p className="card-text mb-3">{props.value}</p>
+      <h6 className="card-subtitle mb-1">{label}</h6>
+      <p className="card-text mb-3">{value}</p>
     </div>
   );
 }
 
-export default Field;
+Field.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+};
