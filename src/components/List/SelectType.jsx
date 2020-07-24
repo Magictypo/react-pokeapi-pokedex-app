@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const FILTER_TYPES = [
   { type: 'type', label: 'Type' },
@@ -28,3 +29,8 @@ export default function SelectType({ value, onChange }) {
     </select>
   );
 }
+
+SelectType.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};

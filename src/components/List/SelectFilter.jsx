@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const selectStyles = {
   margin: '8px',
@@ -26,3 +27,11 @@ export default function SelectFilter({
     </select>
   );
 }
+
+SelectFilter.propTypes = {
+  value: PropTypes.string.isRequired,
+  filterType: PropTypes.string.isRequired,
+  filters: PropTypes.array.isRequired,
+  onChange: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+};

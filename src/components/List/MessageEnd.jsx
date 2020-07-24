@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function MessageEnd({ filterType, filterValue, hasMore }) {
   if (filterType && !filterValue) {
@@ -18,3 +19,9 @@ export default function MessageEnd({ filterType, filterValue, hasMore }) {
   }
   return null;
 }
+
+MessageEnd.propTypes = {
+  filterType: PropTypes.string.isRequired,
+  filterValue: PropTypes.string.isRequired,
+  hasMore: PropTypes.bool.isRequired,
+};
