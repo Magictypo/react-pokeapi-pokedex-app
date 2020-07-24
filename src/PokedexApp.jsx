@@ -25,7 +25,7 @@ function PokedexApp() {
               <Route exact path="/">
                 <List />
               </Route>
-              <Route path="/:name">
+              <Route path="/:id">
                 <Detail />
               </Route>
             </Switch>

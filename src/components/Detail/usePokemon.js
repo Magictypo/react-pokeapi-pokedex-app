@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
 import { getPokemonById } from '../../services/PokeAPI';
 
 const initialState = {
@@ -56,24 +56,39 @@ function normalizer(data) {
   return normalized;
 }
 
-export function usePokemon(name) {
-  const [data, setData] = useState(initialState);
-  const [isLoading, setLoading] = useState(false);
+const ACTION = {
+  MAKE_REQUEST: 'MAKE_REQUEST',
+  GET_DATA: 'GET_DATA',
+  ERROR: 'ERROR',
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case ACTION.MAKE_REQUEST:
+      return { ...state, isLoading: true };
+    case ACTION.GET_DATA:
+      return { ...state, isLoading: false, data: action.payload.data };
+    default:
+      return state;
+  }
+}
+
+export function usePokemon(id) {
+  const [state, dispatch] = useReducer(reducer, { isLoading: false, data: initialState });
 
   useEffect(() => {
-    async function getData() {
-      setLoading(true);
-      const res = await getPokemonById(name);
-      setData(normalizer(res.data));
-      setLoading(false);
-    }
-    getData();
-  }, [name]);
+    dispatch({ type: ACTION.MAKE_REQUEST });
+    getPokemonById(id).then((res) => {
+      dispatch({
+        type: ACTION.GET_DATA,
+        payload: {
+          data: normalizer(res.data),
+        },
+      });
+    });
+  }, [id]);
 
-  return {
-    isLoading,
-    data,
-  };
+  return state;
 }
 
 export default { usePokemon };
