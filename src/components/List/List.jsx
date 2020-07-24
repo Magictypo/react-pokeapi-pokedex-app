@@ -82,7 +82,13 @@ export default function List() {
             <ul className="list-group list-group-flush">{listItems}</ul>
           </InfiniteScroll>
 
-          <MessageEnd type={type} filterURL={filterURL} hasMore={isNextPage} />
+          <MessageEnd
+            isLoading={isLoading}
+            count={data.length}
+            type={type}
+            filterURL={filterURL}
+            hasMore={isNextPage}
+          />
 
         </div>
       </div>

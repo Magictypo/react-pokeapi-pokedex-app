@@ -1,19 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function MessageEnd({ type, filterURL, hasMore }) {
+export default function MessageEnd({
+  count, type, filterURL, hasMore, isLoading,
+}) {
+  let message = '';
+
   if (type && !filterURL) {
-    return (
-      <div className="text-center p-2">
-        Please Select Filter Value.
-      </div>
-    );
+    message = 'Please Select Filter Value.';
   }
 
   if (hasMore === false) {
+    message = 'You have reach end of list. No More Pokemon Available';
+  }
+
+  if (count === 0 && !isLoading) {
+    message = 'No Pokemon Found.';
+  }
+
+  if (message) {
     return (
       <div className="text-center p-2">
-        You have reach end of list. No More Pokemon Available
+        {message}
       </div>
     );
   }
@@ -24,4 +32,6 @@ MessageEnd.propTypes = {
   type: PropTypes.string.isRequired,
   filterURL: PropTypes.string.isRequired,
   hasMore: PropTypes.bool.isRequired,
+  count: PropTypes.number.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
