@@ -30,10 +30,12 @@ const ACTION = {
   GET_NEXT_PAGE: 'get-next-page',
   GET_FILTERS: 'get-filters',
   GET_POKEMON_BY_FILTER: 'get-pokemon-by-filter',
+  MAKE_REQUEST_BY_FILTER: 'make-request-by-filter',
 };
 
 const initialState = ({
   data: [],
+  isFilteredData: false,
   isNextPage: false,
   nextURL: '',
   isLoading: false,
@@ -43,7 +45,20 @@ const initialState = ({
 function reducer(state, action) {
   switch (action.type) {
     case ACTION.MAKE_REQUEST:
-      return { ...state, isLoading: true };
+      return {
+        ...state,
+        isLoading: true,
+        isFilteredData: false,
+        isNextPage: false,
+      };
+    case ACTION.MAKE_REQUEST_BY_FILTER:
+      return {
+        ...state,
+        isLoading: true,
+        isFilteredData: true,
+        isNextPage: false,
+        data: [],
+      };
     case ACTION.GET_POKEMON:
       return {
         ...state,
@@ -98,7 +113,7 @@ export function usePokemons(page, filterType, filterValue) {
   useEffect(() => {
     if (!filterType) return;
 
-    dispatch({ type: ACTION.MAKE_REQUEST });
+    dispatch({ type: ACTION.MAKE_REQUEST_BY_FILTER });
     getByURL(`/${filterType.type}`).then((res) => {
       dispatch({
         type: ACTION.GET_FILTERS,
@@ -112,7 +127,7 @@ export function usePokemons(page, filterType, filterValue) {
   useEffect(() => {
     if (!filterType || !filterValue) return;
 
-    dispatch({ type: ACTION.MAKE_REQUEST });
+    dispatch({ type: ACTION.MAKE_REQUEST_BY_FILTER });
     const id = getIdFromURL(filterValue.url);
     getByURL(`/${filterType.type}/${id}`).then((res) => {
       dispatch({
@@ -125,8 +140,10 @@ export function usePokemons(page, filterType, filterValue) {
   }, [filterValue]);
 
   useEffect(() => {
-  // exit if still loading or no next page
-    if (state.isLoading || state.isNextPage === false) return;
+    // exit if invalid condition
+    if (state.isLoading) return;
+    if (state.isNextPage === false) return;
+    if (state.isFilteredData === true) return;
 
     // start load data
     dispatch({ type: ACTION.MAKE_REQUEST });
