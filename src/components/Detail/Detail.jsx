@@ -5,6 +5,7 @@ import Field from './Field';
 import FieldBar from './FieldBar';
 import Spinner from '../Spinner';
 import BackButton from './BackButton';
+import PokemonName from './PokemonName';
 
 function Detail() {
   const { id } = useParams();
@@ -20,9 +21,7 @@ function Detail() {
 
             <div className="d-flex justify-content-between">
               <BackButton />
-              <h2 style={{ lineHeight: '96px' }} className="card-title">
-                {`#${data.order} ${data.name.toUpperCase()}`}
-              </h2>
+              <PokemonName order={data.order.toString()} name={data.name} />
               <img src={`/assets/sprites/pokemon/${data.id}.png`} alt="" />
             </div>
 
