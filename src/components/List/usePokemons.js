@@ -59,7 +59,7 @@ function reducer(state, action) {
   }
 }
 
-export default function usePokemons(page) {
+export default function usePokemons() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -76,8 +76,7 @@ export default function usePokemons(page) {
     });
   }, []);
 
-  useEffect(() => {
-    // exit if invalid condition
+  function getMore() {
     if (state.isLoading) return;
     if (state.isNextPage === false) return;
 
@@ -92,7 +91,7 @@ export default function usePokemons(page) {
         },
       });
     });
-  }, [page]);
+  }
 
-  return state;
+  return { ...state, getMore };
 }

@@ -81,7 +81,7 @@ export default function usePokemonsFiltered(filterURL, more) {
     });
   }, [filterURL]);
 
-  useEffect(() => {
+  function getMore() {
     if (state.isLoading) return;
     if (state.isNextPage === false) return;
 
@@ -91,7 +91,7 @@ export default function usePokemonsFiltered(filterURL, more) {
         data: state.nextData.splice(0, 5),
       },
     });
-  }, [more]);
+  }
 
-  return state;
+  return { ...state, getMore };
 }

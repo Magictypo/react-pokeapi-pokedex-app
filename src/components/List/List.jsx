@@ -11,20 +11,22 @@ import ButtonClearFilter from './components/ButtonClearFilter';
 import usePokemonsFiltered from './usePokemonsFiltered';
 
 export default function List() {
-  // infinite scroll trigger
-  const [more, setMore] = useState(1);
-
   // filters state
   const [type, setType] = useState('');
   const [filterURL, setFilterURL] = useState('');
 
   // render state
-  const stateNormal = usePokemons(more);
-  const stateFiltered = usePokemonsFiltered(filterURL, more);
+  const stateNormal = usePokemons();
+  const stateFiltered = usePokemonsFiltered(filterURL);
 
   // conditional render list
   const renderState = type ? stateFiltered : stateNormal;
-  const { isLoading, data, isNextPage } = { ...renderState };
+  const {
+    isLoading,
+    data,
+    isNextPage,
+    getMore,
+  } = { ...renderState };
 
   function onChangeFilterType(e) {
     setType(e.target.value);
@@ -34,14 +36,9 @@ export default function List() {
     setFilterURL(e.target.value);
   }
 
-  function onCLickClearFilter() {
+  function onClickClearFilter() {
     setType('');
     setFilterURL('');
-  }
-
-  function incrementPage() {
-    if (isLoading) return;
-    setMore(more + 1);
   }
 
   const listItems = data.map((o) => (
@@ -67,14 +64,14 @@ export default function List() {
               onChange={onChangeFilterValue}
               disabled={isLoading}
             />
-            <ButtonClearFilter onClick={onCLickClearFilter} disabled={isLoading} />
+            <ButtonClearFilter onClick={onClickClearFilter} disabled={isLoading} />
           </div>
 
           <Spinner isLoading={isLoading} />
 
           <InfiniteScroll
             pageStart={0}
-            loadMore={incrementPage}
+            loadMore={getMore}
             hasMore={isNextPage}
             loader={<Spinner isLoading={isLoading} key={0} />}
           >
