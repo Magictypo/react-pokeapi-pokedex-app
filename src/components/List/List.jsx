@@ -1,40 +1,43 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroller';
-import { usePokemons } from './usePokemons';
+import usePokemons from './usePokemons';
 import Spinner from '../Spinner';
 import MessageEnd from './MessageEnd';
 import SelectType from './SelectType';
 import SelectFilter from './SelectFilter';
 import ListItem from './ListItem';
+import ButtonClearFilter from './ButtonClearFilter';
 
 export default function List() {
   const [initCount, setInitCount] = useState(1);
   const [page, setPage] = useState(1);
-  const [filterType, setFilterType] = useState('');
-  const [filterValue, setFilterValue] = useState('');
+
+  // filters
+  const [type, setType] = useState('');
+  const [filterURL, setFilterURL] = useState('');
+
   const {
     isLoading,
     data,
     isNextPage,
-    filters,
-  } = usePokemons(initCount, page, filterType, filterValue);
+  } = usePokemons(initCount, page, filterURL);
 
   function onChangeFilterType(e) {
-    setFilterType(e.target.value);
+    setType(e.target.value);
   }
 
   function onChangeFilterValue(e) {
-    setFilterValue(e.target.value);
+    setFilterURL(e.target.value);
   }
 
-  function clearFilter() {
+  function onCLickClearFilter() {
     // trigger effect
     setInitCount(initCount + 1);
 
     // clear form
-    setFilterType('');
-    setFilterValue('');
+    setType('');
+    setFilterURL('');
   }
 
   function incrementPage() {
@@ -55,24 +58,17 @@ export default function List() {
 
           <div className="d-flex">
             <SelectType
-              value={filterType}
+              value={type}
               onChange={onChangeFilterType}
+              disabled={isLoading}
             />
             <SelectFilter
-              value={filterValue}
-              filters={filters}
-              filterType={filterType}
-              isLoading={isLoading}
+              value={filterURL}
+              type={type}
               onChange={onChangeFilterValue}
+              disabled={isLoading}
             />
-            <button
-              style={{ margin: '8px' }}
-              className="btn-warning form-control"
-              type="button"
-              onClick={clearFilter}
-            >
-              Clear Filter
-            </button>
+            <ButtonClearFilter onClick={onCLickClearFilter} disabled={isLoading} />
           </div>
 
           <Spinner isLoading={isLoading} />
@@ -86,7 +82,7 @@ export default function List() {
             <ul className="list-group list-group-flush">{listItems}</ul>
           </InfiniteScroll>
 
-          <MessageEnd filterType={filterType} filterValue={filterValue} hasMore={isNextPage} />
+          <MessageEnd type={type} filterURL={filterURL} hasMore={isNextPage} />
 
         </div>
       </div>
