@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
 import { getByURL, getPokemons } from '../../services/PokeAPI';
 
 function getIdFromURL(url) {
@@ -24,60 +24,125 @@ function normalizerFiltered(data) {
   return result;
 }
 
-export function usePokemons(filterType, filterValue) {
-  const [data, setData] = useState([]);
-  const [nextPage, setNextPage] = useState(null);
-  const [isLoading, setLoading] = useState(false);
-  const [filters, setFilters] = useState([]);
+const ACTION = {
+  MAKE_REQUEST: 'make-request',
+  GET_POKEMON: 'get-pokemon',
+  GET_NEXT_PAGE: 'get-next-page',
+  GET_FILTERS: 'get-filters',
+  GET_POKEMON_BY_FILTER: 'get-pokemon-by-filter',
+};
+
+const initialState = ({
+  data: [],
+  isNextPage: false,
+  nextURL: '',
+  isLoading: false,
+  filters: [],
+});
+
+function reducer(state, action) {
+  switch (action.type) {
+    case ACTION.MAKE_REQUEST:
+      return { ...state, isLoading: true };
+    case ACTION.GET_POKEMON:
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload.data,
+        isNextPage: !!action.payload.next,
+        nextURL: action.payload.next,
+      };
+    case ACTION.GET_NEXT_PAGE:
+      return {
+        ...state,
+        isLoading: false,
+        data: [...state.data, ...action.payload.data],
+        isNextPage: !!action.payload.next,
+        nextURL: action.payload.next,
+      };
+    case ACTION.GET_FILTERS:
+      return {
+        ...state,
+        isLoading: false,
+        filters: action.payload.data,
+      };
+    case ACTION.GET_POKEMON_BY_FILTER:
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload.data,
+        isNextPage: false,
+      };
+    default:
+      return state;
+  }
+}
+
+export function usePokemons(page, filterType, filterValue) {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    setLoading(true);
-    getPokemons(10, 0)
-      .then((res) => {
-        setData(res.data.results.map(normalizer));
-        setNextPage(res.data.next);
-        setLoading(false);
+    dispatch({ type: ACTION.MAKE_REQUEST });
+    getPokemons(10, 0).then((res) => {
+      dispatch({
+        type: ACTION.GET_POKEMON,
+        payload: {
+          data: res.data.results.map(normalizer),
+          next: res.data.next,
+          nextURL: res.data.next,
+        },
       });
+    });
   }, []);
 
   useEffect(() => {
     if (!filterType) return;
 
+    dispatch({ type: ACTION.MAKE_REQUEST });
     getByURL(`/${filterType.type}`).then((res) => {
-      setFilters(res.data.results);
-      setLoading(false);
+      dispatch({
+        type: ACTION.GET_FILTERS,
+        payload: {
+          data: res.data.results,
+        },
+      });
     });
   }, [filterType]);
 
   useEffect(() => {
     if (!filterType || !filterValue) return;
 
+    dispatch({ type: ACTION.MAKE_REQUEST });
     const id = getIdFromURL(filterValue.url);
     getByURL(`/${filterType.type}/${id}`).then((res) => {
-      setData(res.data.pokemon.map(normalizerFiltered));
-      setLoading(false);
+      dispatch({
+        type: ACTION.GET_POKEMON_BY_FILTER,
+        payload: {
+          data: res.data.pokemon.map(normalizerFiltered),
+        },
+      });
     });
   }, [filterValue]);
 
-  async function getNextPage() {
-    // exit if still loading or no next page
-    if (isLoading || nextPage === null) return;
+  useEffect(() => {
+  // exit if still loading or no next page
+    if (state.isLoading || state.isNextPage === false) return;
 
     // start load data
-    setLoading(true);
-    const res = await getByURL(nextPage);
-    setData([...data.map(normalizer), ...res.data.results.map(normalizer)]);
-    setNextPage(res.data.next);
-    setLoading(false);
-  }
+    dispatch({ type: ACTION.MAKE_REQUEST });
+    getByURL(state.nextURL).then((res) => {
+      dispatch({
+        type: ACTION.GET_NEXT_PAGE,
+        payload: {
+          data: res.data.results.map(normalizer),
+          next: res.data.next,
+          nextURL: res.data.next,
+        },
+      });
+    });
+  }, [page]);
 
-  return {
-    isLoading,
-    data,
-    nextPage,
-    getNextPage,
-    filters,
-  };
+  return state;
 }
 
 export default { usePokemons };

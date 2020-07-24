@@ -13,15 +13,15 @@ const FILTER_TYPES = [
 ];
 
 export default function List() {
+  const [page, setPage] = useState(1);
   const [filterType, setFilterType] = useState(null);
   const [filterValue, setFilterValue] = useState([]);
   const {
     isLoading,
     data,
-    getNextPage,
-    nextPage,
+    isNextPage,
     filters,
-  } = usePokemons(filterType, filterValue);
+  } = usePokemons(page, filterType, filterValue);
 
   function onChangeFilterType(e) {
     const selected = FILTER_TYPES.find((o) => o.type === e.target.value);
@@ -33,12 +33,16 @@ export default function List() {
     setFilterValue(selected);
   }
 
+  function incrementPage() {
+    if (isLoading) return;
+    setPage(page + 1);
+  }
+
   const listItems = data.map((o) => (
-    <li className="list-group-item text-center" key={o.name}>
-      <Link to={`/${o.name}`}>
+    <li className="list-group-item text-center" key={o.id}>
+      <Link to={`/${o.id}`}>
         <img src={o.images} alt="" />
-        {`#${o.id} `}
-        {o.name.toUpperCase()}
+        {`#${o.id} ${o.name.toUpperCase()}`}
       </Link>
     </li>
   ));
@@ -48,20 +52,32 @@ export default function List() {
       <div className="col-md-6" style={{ margin: '0 auto' }}>
         <div className="card bg-success">
 
-          <SelectType filterTypes={FILTER_TYPES} onChange={onChangeFilterType} />
-          <SelectFilter filterType={filterType} filters={filters} onChange={onChangeFilterValue} />
+          <SelectType
+            value={filterType}
+            filterTypes={FILTER_TYPES}
+            onChange={onChangeFilterType}
+          />
+
+          <SelectFilter
+            value={filterValue}
+            filterType={filterType}
+            filters={filters}
+            onChange={onChangeFilterValue}
+          />
 
           <Spinner isLoading={isLoading} />
 
           <InfiniteScroll
             pageStart={0}
-            loadMore={getNextPage}
-            hasMore={!!nextPage}
+            loadMore={incrementPage}
+            hasMore={isNextPage}
             loader={<Spinner isLoading={isLoading} key={0} />}
           >
             <ul className="list-group list-group-flush">{listItems}</ul>
           </InfiniteScroll>
-          <MessageEnd hasMore={!!nextPage} />
+
+          <MessageEnd hasMore={isNextPage} />
+
         </div>
       </div>
     </div>
