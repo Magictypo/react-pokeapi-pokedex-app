@@ -66,6 +66,7 @@ function reducer(state, action) {
         data: action.payload.data,
         isNextPage: !!action.payload.next,
         nextURL: action.payload.next,
+        filters: [],
       };
     case ACTION.GET_NEXT_PAGE:
       return {
