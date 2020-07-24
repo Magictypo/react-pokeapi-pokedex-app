@@ -23,5 +23,5 @@ export default function FieldBar({ label, value }) {
 
 FieldBar.propTypes = {
   label: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
 };

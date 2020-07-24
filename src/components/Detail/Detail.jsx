@@ -31,12 +31,12 @@ function Detail() {
               <div className="card-body">
                 <div className="row">
                   <div className="col-6">
-                    <Field value={`${data.height}"`} label="Height" />
-                    <Field value={`${data.weight} lbs`} label="Weight" />
+                    <Field value={`${data.height.toString()}"`} label="Height" />
+                    <Field value={`${data.weight.toString()} lbs`} label="Weight" />
                   </div>
                   <div className="col-6">
-                    <Field value={data.types} label="Types" />
-                    <Field value={data.abilities} label="Abilities" />
+                    <Field value={data.types.toString()} label="Types" />
+                    <Field value={data.abilities.toString()} label="Abilities" />
                   </div>
                 </div>
               </div>
@@ -47,14 +47,14 @@ function Detail() {
               <div className="card-body">
                 <div className="row">
                   <div className="col-6">
-                    <FieldBar value={data.stats.hp} label="HP" />
-                    <FieldBar value={data.stats.attack} label="Attack" />
-                    <FieldBar value={data.stats.defense} label="Defence" />
+                    <FieldBar value={data.stats.hp.toString()} label="HP" />
+                    <FieldBar value={data.stats.attack.toString()} label="Attack" />
+                    <FieldBar value={data.stats.defense.toString()} label="Defence" />
                   </div>
                   <div className="col-6">
-                    <FieldBar value={data.stats.specialAttack} label="Special Attack" />
-                    <FieldBar value={data.stats.specialDefense} label="Special Defence" />
-                    <FieldBar value={data.stats.speed} label="Speed" />
+                    <FieldBar value={data.stats.specialAttack.toString()} label="Special Attack" />
+                    <FieldBar value={data.stats.specialDefense.toString()} label="Special Defence" />
+                    <FieldBar value={data.stats.speed.toString()} label="Speed" />
                   </div>
                 </div>
               </div>
