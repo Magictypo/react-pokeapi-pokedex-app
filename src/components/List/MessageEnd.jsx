@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function MessageEnd({ filterType, filterValue, hasMore }) {
-  if (filterType && !filterValue) {
+export default function MessageEnd({ type, filterURL, hasMore }) {
+  if (type && !filterURL) {
     return (
       <div className="text-center" style={{ padding: 8 }}>
         Please Select Filter Value.
@@ -21,7 +21,7 @@ export default function MessageEnd({ filterType, filterValue, hasMore }) {
 }
 
 MessageEnd.propTypes = {
-  filterType: PropTypes.string.isRequired,
-  filterValue: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  filterURL: PropTypes.string.isRequired,
   hasMore: PropTypes.bool.isRequired,
 };
