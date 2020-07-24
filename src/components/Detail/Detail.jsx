@@ -1,11 +1,11 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { usePokemon } from './usePokemon';
-import Field from './Field';
-import FieldBar from './FieldBar';
+import Field from './components/Field';
+import FieldBar from './components/FieldBar';
 import Spinner from '../Spinner';
-import BackButton from './BackButton';
-import PokemonName from './PokemonName';
+import BackButton from './components/BackButton';
+import PokemonName from './components/PokemonName';
 
 const centerizeStyles = { margin: '0 auto' };
 

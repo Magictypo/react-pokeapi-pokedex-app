@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroller';
 import usePokemons from './usePokemons';
 import Spinner from '../Spinner';
-import MessageEnd from './MessageEnd';
-import SelectType from './SelectType';
-import SelectFilter from './SelectFilter';
-import ListItem from './ListItem';
-import ButtonClearFilter from './ButtonClearFilter';
+import MessageEnd from './components/MessageEnd';
+import SelectType from './components/SelectType';
+import SelectFilter from './components/SelectFilter';
+import ListItem from './components/ListItem';
+import ButtonClearFilter from './components/ButtonClearFilter';
 
 export default function List() {
   const [initCount, setInitCount] = useState(1);
