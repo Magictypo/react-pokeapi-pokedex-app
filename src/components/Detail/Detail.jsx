@@ -7,13 +7,15 @@ import Spinner from '../Spinner';
 import BackButton from './BackButton';
 import PokemonName from './PokemonName';
 
+const centerizeStyles = { margin: '0 auto' };
+
 function Detail() {
   const { id } = useParams();
   const { isLoading, data } = usePokemon(id);
 
   return (
     <div className="row">
-      <div className="col-sm-10 col-md-6" style={{ margin: '0 auto' }}>
+      <div className="col-sm-10 col-md-6" style={centerizeStyles}>
         <div className="card bg-light">
           <div className="card-body">
 
