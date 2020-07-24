@@ -22,6 +22,7 @@ const ACTION = {
   MAKE_REQUEST: 'MAKE_REQUEST',
   GET_DATA: 'GET_DATA',
   GET_MORE: 'GET_MORE',
+  CLEAR_DATA: 'CLEAR_DATA',
   ERROR: 'ERROR',
 };
 
@@ -34,6 +35,8 @@ const initialState = ({
 
 function reducer(state, action) {
   switch (action.type) {
+    case ACTION.CLEAR_DATA:
+      return { ...initialState };
     case ACTION.MAKE_REQUEST:
       return {
         ...state,
@@ -66,7 +69,10 @@ export default function usePokemonsFiltered(type, typeId) {
 
   useEffect(() => {
     if (!type) return;
-    if (!typeId) return;
+    if (type && !typeId) {
+      dispatch({ type: ACTION.CLEAR_DATA });
+      return;
+    }
 
     dispatch({ type: ACTION.MAKE_REQUEST });
     getByURL(`/${type}/${typeId}`).then((res) => {
