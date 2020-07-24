@@ -13,6 +13,7 @@ const FILTER_TYPES = [
 ];
 
 export default function List() {
+  const [initCount, setInitCount] = useState(1);
   const [page, setPage] = useState(1);
   const [filterType, setFilterType] = useState(null);
   const [filterValue, setFilterValue] = useState([]);
@@ -21,7 +22,7 @@ export default function List() {
     data,
     isNextPage,
     filters,
-  } = usePokemons(page, filterType, filterValue);
+  } = usePokemons(initCount, page, filterType, filterValue);
 
   function onChangeFilterType(e) {
     const selected = FILTER_TYPES.find((o) => o.type === e.target.value);
@@ -31,6 +32,15 @@ export default function List() {
   function onChangeFilterValue(e) {
     const selected = filters.find((o) => o.name === e.target.value);
     setFilterValue(selected);
+  }
+
+  function clearFilter() {
+    // trigger effect
+    setInitCount(initCount + 1);
+
+    // clear form
+    setFilterType('');
+    setFilterValue('');
   }
 
   function incrementPage() {
@@ -52,18 +62,26 @@ export default function List() {
       <div className="col-md-6" style={{ margin: '0 auto' }}>
         <div className="card bg-success">
 
-          <SelectType
-            value={filterType}
-            filterTypes={FILTER_TYPES}
-            onChange={onChangeFilterType}
-          />
-
-          <SelectFilter
-            value={filterValue}
-            filterType={filterType}
-            filters={filters}
-            onChange={onChangeFilterValue}
-          />
+          <div className="d-flex">
+            <SelectType
+              value={filterType}
+              filterTypes={FILTER_TYPES}
+              onChange={onChangeFilterType}
+            />
+            <SelectFilter
+              value={filterValue}
+              filters={filters}
+              onChange={onChangeFilterValue}
+            />
+            <button
+              style={{ margin: '8px' }}
+              className="btn-warning form-control"
+              type="button"
+              onClick={clearFilter}
+            >
+              Clear Filter
+            </button>
+          </div>
 
           <Spinner isLoading={isLoading} />
 

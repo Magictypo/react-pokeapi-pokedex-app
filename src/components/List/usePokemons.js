@@ -93,7 +93,7 @@ function reducer(state, action) {
   }
 }
 
-export function usePokemons(page, filterType, filterValue) {
+export function usePokemons(initCount, page, filterType, filterValue) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -108,7 +108,7 @@ export function usePokemons(page, filterType, filterValue) {
         },
       });
     });
-  }, []);
+  }, [initCount]);
 
   useEffect(() => {
     if (!filterType) return;

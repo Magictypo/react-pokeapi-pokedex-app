@@ -1,10 +1,15 @@
 import React from 'react';
 
+const selectStyles = {
+  margin: '8px',
+};
+
 export default function SelectType({ filterTypes = [], onChange }) {
   return (
     <select
-      onChange={onChange}
       className="form-control"
+      style={selectStyles}
+      onChange={onChange}
       name="filterType"
       id="filterType"
     >
