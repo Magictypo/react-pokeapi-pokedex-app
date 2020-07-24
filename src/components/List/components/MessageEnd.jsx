@@ -8,14 +8,10 @@ export default function MessageEnd({
 
   if (type && !filterURL) {
     message = 'Please Select Filter Value.';
-  }
-
-  if (hasMore === false) {
-    message = 'You have reach end of list. No More Pokemon Available';
-  }
-
-  if (count === 0 && !isLoading) {
+  } else if (count === 0 && !isLoading) {
     message = 'No Pokemon Found.';
+  } else if (hasMore === false) {
+    message = 'You have reach end of list. No More Pokemon Available';
   }
 
   if (message) {
