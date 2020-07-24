@@ -1,9 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function FieldBar(props) {
-  const { label, value } = props;
+export default function FieldBar({ label, value }) {
   const barStyle = { width: `${value}%` };
-
   return (
     <div>
       <h6 className="card-subtitle mb-1">{label}</h6>
@@ -22,4 +21,7 @@ function FieldBar(props) {
   );
 }
 
-export default FieldBar;
+FieldBar.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+};
