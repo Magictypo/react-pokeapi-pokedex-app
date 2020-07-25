@@ -11,7 +11,7 @@ export default function MessageEnd({
   } else if (count === 0 && !isLoading) {
     message = 'No Pokemon Found.';
   } else if (hasMore === false) {
-    message = 'You have reach end of list. No More Pokemon Available';
+    message = 'You have reach end of list. No More Pokemon Available.';
   }
 
   if (message) {
