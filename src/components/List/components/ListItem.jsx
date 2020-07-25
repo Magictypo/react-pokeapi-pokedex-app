@@ -14,7 +14,7 @@ export default function ListItem({ id, images, name }) {
   return (
     <div style={listItemStyles} className="list-group-item d-flex justify-content-between">
       <h1 style={alignTextMiddle} className="mb-0">{`#${id}`}</h1>
-      <img src={images} alt="" />
+      <img src={images} alt="pokemon" />
       <h1 style={alignTextMiddle}>{`${name.toUpperCase()}`}</h1>
     </div>
   );
